@@ -1,0 +1,17 @@
+# PP13: ConfigMap e Secret consumidos como variáveis de ambiente (relaxed binding) pelos dois serviços.
+apiVersion: v1
+kind: ConfigMap
+metadata: { name: shop-config }
+data:
+  EUREKA_ENABLED: "false"          # em Kubernetes o Service faz a descoberta (DNS), sem Eureka
+  CATALOG_BALANCED: "false"
+  CATALOG_URL: "http://catalog"
+  CATALOG_TIMEOUT: "5s"            # pods com CPU limitada respondem devagar ao esquentar; o padrão do código é 1s
+  OUTBOX_ENABLED: "false"          # sem Kafka neste cluster de teste (a outbox fica para o PP12)
+  SHOP_CURRENCY: "BRL"
+---
+apiVersion: v1
+kind: Secret
+metadata: { name: shop-secret }
+stringData:
+  SPRING_DATASOURCE_PASSWORD: "super-secreta"

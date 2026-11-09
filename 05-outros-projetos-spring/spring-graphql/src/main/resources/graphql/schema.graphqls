@@ -1,0 +1,6 @@
+type Query {
+  orderById(id: ID!): Order
+  orders: [Order!]!
+}
+type Order { id: ID! status: String! customer: Customer! }
+type Customer { id: ID! name: String! }

@@ -1,0 +1,11 @@
+management:
+  tracing.sampling.probability: 1.0        # só para estudo
+  opentelemetry.tracing.export.otlp.endpoint: http://localhost:4318/v1/traces   # padrão do Collector (OTLP/HTTP)
+---
+spring.config.activate.on-profile: orders
+spring.application.name: orders
+server.port: 8091
+---
+spring.config.activate.on-profile: catalog
+spring.application.name: catalog
+server.port: 8092

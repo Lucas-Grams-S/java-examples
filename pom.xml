@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  POM pai do multi-módulo de exemplos.
+  Versões: TODAS vêm do BOM do Spring Boot (spring-boot-starter-parent 4.1.2), que gerencia
+  Spring Framework 7.0.10, JUnit 6, AssertJ, Mockito e as versões dos plugins Maven.
+  O Spring Cloud (BOM 2025.1.4) será importado somente em 04-spring-cloud.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>4.1.2</version>
+    <relativePath/>
+  </parent>
+
+  <groupId>dev.estudos</groupId>
+  <artifactId>java-examples</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>java-examples</name>
+  <description>Exemplos executáveis da base de estudo Java/Spring</description>
+
+  <properties>
+    <!-- Versão de referência dos documentos (PROGRESSO.md): Java 25 -->
+    <maven.compiler.release>25</maven.compiler.release>
+    <java.version>25</java.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <modules>
+    <module>01-java</module>
+    <module>02-spring-core</module>
+    <module>03-spring-boot</module>
+    <module>04-spring-cloud</module>
+    <module>05-outros-projetos-spring</module>
+    <module>06-padroes-de-projeto</module>
+    <module>07-projeto-pratico</module>
+  </modules>
+</project>

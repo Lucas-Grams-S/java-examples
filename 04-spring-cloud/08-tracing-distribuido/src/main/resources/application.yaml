@@ -1,0 +1,11 @@
+management:
+  tracing.sampling.probability: 1.0        # só para estudo
+  tracing.export.zipkin.endpoint: http://localhost:9411/api/v2/spans
+---
+spring.config.activate.on-profile: orders
+spring.application.name: orders
+server.port: 8081
+---
+spring.config.activate.on-profile: catalog
+spring.application.name: catalog
+server.port: 8082

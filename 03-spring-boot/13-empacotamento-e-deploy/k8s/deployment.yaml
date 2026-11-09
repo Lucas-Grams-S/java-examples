@@ -1,0 +1,35 @@
+# SB13-12: manifesto do doc (§5.4). A imagem é a do Dockerfile (SB13-10) importada no k3s do teste.
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: orders }
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: orders } }
+  template:
+    metadata: { labels: { app: orders } }
+    spec:
+      terminationGracePeriodSeconds: 45          # > timeout-per-shutdown-phase (30s)
+      containers:
+        - name: orders
+          image: sb13-deploy:k8s
+          imagePullPolicy: Never                 # a imagem é importada no nó, não vem de registry
+          ports: [{ containerPort: 8080 }]
+          env:
+            - { name: JAVA_TOOL_OPTIONS, value: "-XX:MaxRAMPercentage=75" }
+            - { name: SPRING_PROFILES_ACTIVE, value: prod }
+          resources:
+            requests: { cpu: "500m", memory: 768Mi }
+            limits:   { memory: 768Mi }
+          readinessProbe: { httpGet: { path: /actuator/health/readiness, port: 8080 } }
+          livenessProbe:  { httpGet: { path: /actuator/health/liveness,  port: 8080 } }
+          startupProbe:
+            httpGet: { path: /actuator/health/liveness, port: 8080 }
+            failureThreshold: 30
+            periodSeconds: 2
+---
+apiVersion: v1
+kind: Service
+metadata: { name: orders }
+spec:
+  selector: { app: orders }
+  ports: [{ port: 80, targetPort: 8080 }]

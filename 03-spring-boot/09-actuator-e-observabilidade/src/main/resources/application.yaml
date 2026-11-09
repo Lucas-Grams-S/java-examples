@@ -1,0 +1,7 @@
+spring.application.name: orders
+management:
+  endpoints.web.exposure.include: health,info,metrics,flyway,caches,scheduledtasks,loggers
+  endpoint.health.show-details: always       # só em dev; em prod: when-authorized
+  endpoint.health.probes.enabled: true
+  info.env.enabled: true
+info.app.name: orders

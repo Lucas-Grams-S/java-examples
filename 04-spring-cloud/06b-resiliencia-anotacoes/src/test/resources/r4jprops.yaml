@@ -1,0 +1,24 @@
+resilience4j:
+  circuitbreaker:
+    instances:
+      backend:
+        sliding-window-size: 4
+        minimum-number-of-calls: 4
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 30s
+  retry:
+    instances:
+      flaky:
+        max-attempts: 3
+        wait-duration: 10ms
+  ratelimiter:
+    instances:
+      limitado:
+        limit-for-period: 2
+        limit-refresh-period: 10s
+        timeout-duration: 0
+  bulkhead:
+    instances:
+      paredao:
+        max-concurrent-calls: 1
+        max-wait-duration: 0

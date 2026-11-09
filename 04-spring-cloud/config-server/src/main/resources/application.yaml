@@ -1,0 +1,5 @@
+server.port: 8888
+spring.application.name: configserver
+spring.cloud.config.server.git:
+  uri: ${CONFIG_REPO:file:///tmp/config-repo}   # em producao: URL https/ssh do repositorio
+  default-label: main

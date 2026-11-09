@@ -1,0 +1,5 @@
+# CL03-13: sem Eureka; lista estatica no SimpleDiscoveryClient (as portas vem de CATALOG_A/CATALOG_B)
+eureka.client.enabled: false
+spring.cloud.discovery.client.simple.instances.catalog:
+  - uri: http://localhost:${CATALOG_A:8081}
+  - uri: http://localhost:${CATALOG_B:8082}

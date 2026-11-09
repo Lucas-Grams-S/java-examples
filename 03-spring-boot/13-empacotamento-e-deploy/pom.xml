@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>dev.estudos</groupId>
+    <artifactId>spring-boot-examples</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <artifactId>sb-13-deploy</artifactId>
+  <name>03.13 - Empacotamento e deploy</name>
+  <properties>
+    <start-class>dev.estudos.boot.deploy.DeployApplication</start-class>
+  </properties>
+  <dependencies>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-webmvc</artifactId></dependency>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-actuator</artifactId></dependency>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-test</artifactId><scope>test</scope></dependency>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-webmvc-test</artifactId><scope>test</scope></dependency>
+      <dependency><groupId>org.testcontainers</groupId><artifactId>testcontainers-k3s</artifactId><scope>test</scope></dependency>
+    <dependency><groupId>org.testcontainers</groupId><artifactId>testcontainers-junit-jupiter</artifactId><scope>test</scope></dependency>
+  </dependencies>
+  <build><plugins>
+    <plugin>
+      <groupId>org.springframework.boot</groupId><artifactId>spring-boot-maven-plugin</artifactId>
+      <executions>
+        <execution><goals><goal>build-info</goal></goals></execution>   <!-- SB13-14: alimenta /actuator/info -->
+      </executions>
+    </plugin>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId><artifactId>maven-failsafe-plugin</artifactId>
+      <executions><execution><goals><goal>integration-test</goal><goal>verify</goal></goals></execution></executions>
+    </plugin>
+  </plugins></build>
+  <profiles>
+    <!-- SB13-11: buildpacks (Paketo). Ativo só se houver Docker (/var/run/docker.sock); depois do jar, antes dos ITs. -->
+    <profile>
+      <id>buildpacks</id>
+      <activation><file><exists>/var/run/docker.sock</exists></file></activation>
+      <build><plugins><plugin>
+        <groupId>org.springframework.boot</groupId><artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration><image><name>sb13-buildpacks:it</name></image></configuration>
+        <executions><execution><id>build-image</id><phase>pre-integration-test</phase>
+          <goals><goal>build-image-no-fork</goal></goals></execution></executions>
+      </plugin></plugins></build>
+    </profile>
+  </profiles>
+</project>

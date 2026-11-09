@@ -1,0 +1,7 @@
+spring.ai.ollama:
+  base-url: ${OLLAMA_URL:http://localhost:11434}
+  chat.options:
+    model: ${OLLAMA_MODEL:deepseek-r1:14b}
+    temperature: 0
+  embedding.options.model: ${OLLAMA_EMBED_MODEL:nomic-embed-text}
+  init.pull-model-strategy: never

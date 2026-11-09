@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: catalog }
+spec:
+  replicas: 2
+  selector: { matchLabels: { app: catalog } }
+  template:
+    metadata: { labels: { app: catalog } }
+    spec:
+      terminationGracePeriodSeconds: 45
+      containers:
+        - name: catalog
+          image: pp-catalog-service:k8s
+          imagePullPolicy: Never
+          ports: [{ containerPort: 8080 }]
+          envFrom:
+            - configMapRef: { name: shop-config }
+            - secretRef: { name: shop-secret }
+          env:
+            - { name: SPRING_CLOUD_CONFIG_ENABLED, value: "false" }
+          resources:
+            requests: { cpu: "250m", memory: 512Mi }
+            limits:   { memory: 512Mi }
+          readinessProbe: { httpGet: { path: /actuator/health/readiness, port: 8080 } }
+          livenessProbe:  { httpGet: { path: /actuator/health/liveness,  port: 8080 } }
+          startupProbe:
+            httpGet: { path: /actuator/health/liveness, port: 8080 }
+            failureThreshold: 40
+            periodSeconds: 2
+---
+apiVersion: v1
+kind: Service
+metadata: { name: catalog }
+spec:
+  selector: { app: catalog }
+  ports: [{ port: 80, targetPort: 8080 }]

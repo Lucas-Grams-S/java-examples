@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>dev.estudos</groupId>
+    <artifactId>java-examples</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <artifactId>spring-cloud-examples</artifactId>
+  <packaging>pom</packaging>
+  <name>04 - Spring Cloud (laboratorio: config, eureka, catalog, orders, gateways)</name>
+  <properties>
+    <spring-cloud.version>2025.1.4</spring-cloud.version>
+  </properties>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring-cloud.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <!-- Cada app gera um jar executavel "-exec" (o jar simples fica como dependencia do reator). -->
+  <build>
+    <pluginManagement><plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId><artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration><classifier>exec</classifier></configuration>
+      </plugin>
+    </plugins></pluginManagement>
+  </build>
+  <modules>
+    <module>config-server</module>
+    <module>eureka-server</module>
+    <module>catalog</module>
+    <module>orders</module>
+    <module>gateway</module>
+    <module>gateway-mvc</module>
+    <module>06-resiliencia</module>
+    <module>06b-resiliencia-anotacoes</module>
+    <module>07-mensageria</module>
+    <module>08-tracing-distribuido</module>
+    <module>08b-tracing-otlp</module>
+    <module>09-kubernetes</module>
+    <module>lab-it</module>
+  </modules>
+</project>

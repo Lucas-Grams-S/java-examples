@@ -1,0 +1,20 @@
+orders:
+  currency: BRL
+app:
+  name: Orders
+  description: ${app.name} roda na moeda ${orders.currency:BRL}
+  secret: ${random.uuid}
+  port: ${random.int[1024,65536]}
+spring:
+  mvc:
+    problemdetails:
+      enabled: true
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+orders:
+  payment-timeout: 45s
+  limits:
+    max-items: 10

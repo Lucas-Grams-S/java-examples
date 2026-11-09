@@ -1,0 +1,13 @@
+spring.cloud.gateway.server.webflux.routes:
+  - id: catalog
+    uri: lb://catalog
+    predicates: [ "Path=/api/catalog/**" ]
+    filters: [ "StripPrefix=2" ]
+  - id: orders
+    uri: lb://orders
+    predicates: [ "Path=/api/orders/**" ]
+    filters: [ "StripPrefix=1" ]
+  - id: legacy
+    uri: lb://catalog
+    predicates: [ "Path=/legacy/**", "Header=X-Canary, true" ]
+    filters: [ "RewritePath=/legacy/(?<segment>.*), /$\\{segment}" ]

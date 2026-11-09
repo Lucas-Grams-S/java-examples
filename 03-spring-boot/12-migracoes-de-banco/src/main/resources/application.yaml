@@ -1,0 +1,3 @@
+spring:
+  datasource.url: jdbc:h2:mem:migracoes;DB_CLOSE_DELAY=-1
+  flyway.locations: classpath:db/migration

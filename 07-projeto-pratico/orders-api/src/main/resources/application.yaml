@@ -1,0 +1,19 @@
+spring:
+  application.name: orders-api
+  datasource:
+    url: ${DB_URL:jdbc:h2:mem:orders;MODE=PostgreSQL;DB_CLOSE_DELAY=-1}
+    username: ${DB_USER:sa}
+    password: ${DB_PASSWORD:}
+  jpa:
+    open-in-view: false          # CP3: LazyInitializationException fora da transação
+    hibernate.ddl-auto: validate # CP4: o esquema é do Flyway; o Hibernate só confere
+  cache.cache-names: products
+  cache.caffeine.spec: maximumSize=500,expireAfterWrite=10m
+management:
+  endpoints.web.exposure.include: health,info,metrics
+  endpoint.health.probes.enabled: true
+  endpoint.health.show-details: when-authorized
+orders:
+  expiry-minutes: 60                  # CP8: pedidos NEW mais velhos que isso expiram
+  expiry-check-interval: PT1M
+  security.jwt-secret: ${ORDERS_SECURITY_JWT_SECRET:uma-chave-simetrica-de-32-bytes!!}   # CP9: por variável de ambiente

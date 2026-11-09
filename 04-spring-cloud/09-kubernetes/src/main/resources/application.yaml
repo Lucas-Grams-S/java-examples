@@ -1,0 +1,8 @@
+spring:
+  application.name: orders
+  config.import: "optional:kubernetes:"
+  cloud.kubernetes:
+    reload: { enabled: true, mode: polling, period: 5000 }
+management:
+  endpoint.health.probes.enabled: true
+server.shutdown: graceful

@@ -1,0 +1,9 @@
+# CL04-10: rota generica ANTES da especifica. "orders" nunca sera alcancada.
+spring.cloud.gateway.server.webflux.routes:
+  - id: all
+    uri: lb://catalog
+    predicates: [ "Path=/api/**" ]
+  - id: orders
+    uri: lb://orders
+    predicates: [ "Path=/api/orders/**" ]
+    filters: [ "StripPrefix=1" ]

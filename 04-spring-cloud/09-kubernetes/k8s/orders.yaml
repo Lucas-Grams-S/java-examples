@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata: { name: orders }            # mesmo nome de spring.application.name
+data:
+  application.yaml: |
+    greeting: ola-do-configmap
+---
+apiVersion: v1
+kind: Secret
+metadata: { name: orders }
+stringData: { db.password: super-secreta }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: orders }
+spec: { selector: { app: orders }, ports: [{ port: 80, targetPort: 8080 }] }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: catalog }
+spec: { selector: { app: catalog }, ports: [{ port: 80, targetPort: 8080 }] }

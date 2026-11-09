@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>dev.estudos</groupId>
+    <artifactId>spring-cloud-examples</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <artifactId>cl-06b-r4j-anotacoes</artifactId>
+  <name>04 - resiliencia (Resilience4j por anotação e propriedades)</name>
+  <dependencyManagement><dependencies>
+    <!-- CL06-14: o resilience4j-spring-boot4 só existe na 2.4.0 e o BOM do Spring Cloud traz a 2.3.0; alinha tudo na 2.4.0. -->
+    <dependency><groupId>io.github.resilience4j</groupId><artifactId>resilience4j-bom</artifactId><version>2.4.0</version><type>pom</type><scope>import</scope></dependency>
+  </dependencies></dependencyManagement>
+  <dependencies>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter</artifactId></dependency>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-aspectj</artifactId></dependency>
+    <!-- fora dos BOMs: o resilience4j-bom não lista o boot4 -->
+    <dependency><groupId>io.github.resilience4j</groupId><artifactId>resilience4j-spring-boot4</artifactId><version>2.4.0</version></dependency>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-test</artifactId><scope>test</scope></dependency>
+  </dependencies>
+</project>

@@ -1,0 +1,22 @@
+spring:
+  application.name: mensageria
+  cloud:
+    function.definition: invoice;audit          # quais funções ligar
+    stream:
+      default-binder: kafka
+      bindings:
+        invoice-in-0:
+          destination: orders
+          group: billing
+          consumer: { max-attempts: 3, back-off-initial-interval: 200 }   # CL07-11
+        invoice-out-0: { destination: invoices }
+        audit-in-0: { destination: invoices, group: audit }
+        orders-out: { destination: orders }     # StreamBridge: nome livre, criado sob demanda
+      kafka:
+        binder:
+          brokers: localhost:9092
+        bindings:
+          invoice-in-0:
+            consumer: { enable-dlq: true, dlq-name: orders-billing-dlq, start-offset: earliest }
+          audit-in-0:
+            consumer: { start-offset: earliest }
